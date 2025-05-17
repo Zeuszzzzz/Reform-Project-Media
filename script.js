@@ -1,40 +1,43 @@
 //nav bar
-const items = [...document.querySelectorAll("a")].slice(1);
-const active = document.querySelectorAll("a")[0]
-let distanceLeft, distanceTop, elemWidth, elemHeight;
+const links = [...document.querySelectorAll("nav a")];
+const active = links[0]; // first <a> is the active indicator
+const items = links.slice(1); // clickable links
 
-(function reset() {
-    active.style.left = `${items[0].offsetLeft}px`;
-    active.style.top = `${items[0].offsetTop}px`;
-    active.style.width = `${items[0].clientWidth}px`;
-    active.style.height = `${items[0].clientHeight}px`;
-})();
+function moveActiveTo(elem) {
+    active.style.position = "absolute";
+    active.style.pointerEvents = "none";
+    active.style.left = `${elem.offsetLeft}px`;
+    active.style.top = `${elem.offsetTop}px`;
+    active.style.width = `${elem.offsetWidth}px`;
+    active.style.height = `${elem.offsetHeight}px`;
+}
 
-items.forEach((elem) => {
-    elem.addEventListener("click", (e) => {
-        distanceLeft = elem.offsetLeft;
-        distanceTop = elem.offsetTop;
-        elemWidth = elem.clientWidth;
-        elemHeight = elem.clientHeight;
+// On page load, get saved index from localStorage or default to 0
+const savedIndex = parseInt(localStorage.getItem("activeNavIndex")) || 0;
+moveActiveTo(items[savedIndex]);
 
-        active.style.width = `${elemWidth}px`;
-        active.style.height = `${elemHeight}px`;
-        active.style.left = `${distanceLeft}px`;
-        active.style.top = `${distanceTop}px`;
+items.forEach((item, index) => {
+    item.addEventListener("click", () => {
+        localStorage.setItem("activeNavIndex", index);
+        moveActiveTo(item);
     });
 });
+
 //nav bar end
 
 //timeline start
 const observer = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
-            entry.target.classList.toggle("visible", entry.isIntersecting)
-        })
+            entry.target.classList.toggle("visible", entry.isIntersecting);
+        });
     },
     {
-        threshold: 0.1,
-    },
+        threshold: 0,
+    }
 );
-document.querySelectorAll(".timeline-event").forEach((element) => observer.observe(element));
+document.querySelectorAll(".event").forEach((element) => {
+        observer.observe(element);
+    }
+);
 //timeline end
