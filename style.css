@@ -222,5 +222,25 @@ h3 {
 }
 p {
     text-shadow: none !important;
+}
+.event p{
     text-align: right;
+}
+
+div.textPages div,a,em,strong{
+    text-shadow: none !important;
+}
+
+.citation {
+    margin-top:2em;
+}
+
+.textPages{
+    padding: 1%;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.textPages p{
+    padding: 1%;
+    text-indent: 30px;
 }
