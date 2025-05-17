@@ -24,3 +24,17 @@ items.forEach((elem) => {
     });
 });
 //nav bar end
+
+//timeline start
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            entry.target.classList.toggle("visible", entry.isIntersecting)
+        })
+    },
+    {
+        threshold: 0.1,
+    },
+);
+document.querySelectorAll(".timeline-event").forEach((element) => observer.observe(element));
+//timeline end
